@@ -50,7 +50,10 @@ def print_pool_count():
 
 def scan_pool(page=1):
     print(f'Requesting page {page}...')
-    r = flickr.groups.pools.getPhotos(group_id=group_id, page=page, per_page=500, format='parsed-json')
+    try:
+        r = flickr.groups.pools.getPhotos(group_id=group_id, page=page, per_page=500, format='parsed-json')
+    except:
+        logging.warning(f'Failed to get page {page}')
     page = r['photos']['page']
     pages = r['photos']['pages']
     if page > pages:
@@ -68,9 +71,9 @@ def scan_pool(page=1):
 def remove_from_pool(photo_id):
     try:
         flickr.groups.pools.remove(group_id=group_id, photo_id=photo_id)
-        print(f'Removed {photo_id}')
+        logging.info(f'Removed {photo_id}')
     except:
-        print(f'Failed to remove {photo_id}')
+        logging.warning(f'Failed to remove {photo_id}')
 
 
 def remove_photos(photo_ids):
