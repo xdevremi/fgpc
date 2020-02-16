@@ -87,7 +87,7 @@ def remove_photos(photo_ids):
 if __name__ == '__main__':
     authenticate()
     print_pool_count()
-    print(f'max_workers set to {max_workers}')
+    print(f'max_workers: {max_workers}')
     print()
     for page in range(page_begin, page_end):
         scan_pool(page)
