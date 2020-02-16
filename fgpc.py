@@ -3,11 +3,15 @@
 import concurrent.futures
 from datetime import datetime
 import configparser
+import logging
 import webbrowser
 import flickrapi
 
 config = configparser.ConfigParser()
 config.read('config.ini')
+
+logging.basicConfig(filename='output.log',level=logging.WARNING)
+logging.info('Starting...')
 
 api_key = str(config.get('config', 'api_key'))
 api_secret = str(config.get('config', 'api_secret'))
