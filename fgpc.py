@@ -40,7 +40,7 @@ def authenticate():
         webbrowser.open_new_tab(authorize_url)
         verifier = str(input('Enter verifier code: '))
         flickr.get_access_token(verifier)
-    print('Authentication complete.')
+    print('Authentication complete')
 
 
 def print_pool_count():
@@ -58,7 +58,7 @@ def scan_pool(page=1):
     pages = r['photos']['pages']
     if page > pages:
         return
-    print(f'Processing page {page} of {pages}.')
+    print(f' Processing page {page} of {pages}...')
     matched_photo_ids = []
     for photo in r['photos']['photo']:
         timestamp = int(photo['dateadded'])
@@ -66,6 +66,8 @@ def scan_pool(page=1):
             matched_photo_ids.append(photo['id'])
     if matched_photo_ids:
         remove_photos(matched_photo_ids)
+    else:
+        print('  Nothing to remove')
 
 
 def remove_from_pool(photo_id):
@@ -77,7 +79,7 @@ def remove_from_pool(photo_id):
 
 
 def remove_photos(photo_ids):
-    print(f'Using max_workers = {max_workers}')
+    print(f'  Removing {len(photo_ids)} photos...')
     with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
         executor.map(remove_from_pool, photo_ids)
 
@@ -85,6 +87,8 @@ def remove_photos(photo_ids):
 if __name__ == '__main__':
     authenticate()
     print_pool_count()
+    print(f'max_workers set to {max_workers}')
+    print()
     for page in range(page_begin, page_end):
         scan_pool(page)
     print_pool_count()
