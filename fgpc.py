@@ -4,6 +4,7 @@ import concurrent.futures
 from datetime import datetime
 import configparser
 import logging
+import sys
 import webbrowser
 import flickrapi
 
@@ -52,8 +53,12 @@ def scan_pool(page=1):
     print(f'Requesting page {page}...')
     try:
         r = flickr.groups.pools.getPhotos(group_id=group_id, page=page, per_page=500, format='parsed-json')
+    except KeyboardInterrupt:
+        sys.exit()
     except:
         logging.warning(f'Failed to get page {page}')
+        print(f' Failed to get page {page}')
+        return
     page = r['photos']['page']
     pages = r['photos']['pages']
     if page > pages:
