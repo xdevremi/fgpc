@@ -10,7 +10,7 @@ import flickrapi
 config = configparser.ConfigParser()
 config.read('config.ini')
 
-logging.basicConfig(filename='output.log',level=logging.WARNING)
+logging.basicConfig(filename='output.log',level=logging.WARNING, filemode='w')
 logging.info('Starting...')
 
 api_key = str(config.get('config', 'api_key'))
